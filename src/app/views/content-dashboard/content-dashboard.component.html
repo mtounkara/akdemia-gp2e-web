@@ -1,0 +1,82 @@
+<div
+  class="row row-cols-1 row-cols-md-3 g-5 text-center justify-content-center mx-5 mt-5"
+>
+  <a href="/dashboard/catalogues/themes">
+    <div class="col">
+      <div class="card shadow py-5">
+        <i class="fas fa-wallet fs-1"></i>
+        <div class="card-body">
+          <p class="card-title fw-bold fs-3">Themes</p>
+          <span class="fs-5">Total {{ listeTheme!.length }}</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="/dashboard/catalogues/subthemes">
+    <div class="col">
+      <div class="card shadow py-5">
+        <i class="fas fa-wallet fs-1"></i>
+        <div class="card-body">
+          <p class="card-title fw-bold fs-3">Sous Themes</p>
+          <span class="fs-5">Total {{ listeSubTheme!.length }}</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="/dashboard/catalogues/formations">
+    <div class="col">
+      <div class="card shadow py-5">
+        <i class="fas fa-book fs-1"></i>
+        <div class="card-body">
+          <p class="card-title fw-bold fs-3">Formations</p>
+          <span class="fs-6">Total {{ listeFormations!.length }}</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="/dashboard/formateurs">
+    <div class="col">
+      <div class="card shadow py-5">
+        <i class="fas fa-users fs-1"></i>
+        <div class="card-body">
+          <p class="card-title fw-bold fs-3">Formateurs</p>
+          <span class="fs-6">Total {{listeFormateurs!.length}}</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="/dashboard/clients">
+    <div class="col">
+      <div class="card shadow py-5">
+        <i class="fas fa-graduation-cap fs-1"></i>
+        <div class="card-body">
+          <p class="card-title fw-bold fs-3">Participants</p>
+          <span class="fs-6"
+            >Total
+            {{
+              this.listeParticuliers.length +
+                this.listeCompagnies.length +
+                this.listeEmployees.length
+            }}</span
+          >
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="/dashboard/sessions">
+    <div class="col">
+      <div class="card shadow py-5">
+        <i class="fas fa-regular fa-hourglass-half fs-1"></i>
+        <div class="card-body">
+          <p class="card-title fw-bold fs-3">Sessions</p>
+          <span class="fs-6">Total 0</span>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

@@ -1,0 +1,268 @@
+<h1 class="h2 mb-3 mt-3 border-bottom p-2">Formateurs</h1>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h4 class="lead">
+            {{
+            formateursAllReserved.length > 0 || formateursAll.length > 0
+            ? "Liste des formateurs"
+            : "Vous n'avez aucun formateur pour l'instant"
+            }}
+        </h4>
+        <button type="button" class="btn btn-sm btn-primary" title="Nouveau formateur" data-bs-toggle="modal"
+            data-bs-target="#formateurModal">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </div>
+
+    <!--  Formulaire d'ajout d'un formateur -->
+    <div class="modal fade" id="formateurModal" data-bs-backdrop="static" tabindex="-1"
+        aria-labelledby="formateurModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter un formateur</h5>
+                </div>
+
+                <form [formGroup]="formateurForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <input class="form-control input-rounded" name="" id="" placeholder="Prénom *"
+                                formControlName="firstName" required />
+                        </div>
+                        <div class="mb-3">
+                            <input class="form-control input-rounded" name="" id="" placeholder="Nom *"
+                                formControlName="lastName" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <input class="form-control input-rounded" name="" id="" placeholder="gender *"
+                                formControlName="gender" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control input-default" placeholder="Activité *"
+                                formControlName="activity" required />
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control input-rounded" name="" id="" cols="60" rows="5"
+                                placeholder="Lien du CV *" formControlName="cvLink" required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Enregistrement d'un formateur-->
+                    <div class="modal-footer">
+                        <button type="submit" [disabled]="formateurForm.invalid || isFormFormateurLoading"
+                            class="btn btn-primary" (click)="saveFormateur()">
+                            <span *ngIf="isFormFormateurLoading" class="spinner-border"></span><span
+                                [ngClass]="isFormFormateurLoading ? 'hidden' : ''">&nbsp;Enregistrer</span>
+                        </button>
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">
+                            &nbsp;Annuler
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nombres de formateurs à afficher par page -->
+    <div class="card-body" *ngIf="formateursAllReserved.length > 0 || formateursAll.length > 0">
+        <div class="row mb-3 d-flex justify-content-between">
+            <div class="col-md-3 d-flex">
+                <label for="entries" class="form-label me-2">Afficher</label>
+                <form [formGroup]="filterForm" class="w-25">
+                    <select formControlName="filter" class="form-select" id="entries">
+                        <option value="5">5</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </form>
+                <label for="entries">entrées</label>
+            </div>
+            <div class="col-md-4">
+                <form [formGroup]="searchForm" class="position-relative">
+                    <i class="fas fa-search search"></i>
+                    <input formControlName="keyWord" (input)="searchByName()" class="form-control ps-5" type="search"
+                        placeholder="Recherche" aria-label="Search" />
+                </form>
+            </div>
+        </div>
+
+        <!-- Liste de formateurs -->
+        <div class="table table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <!-- <th scope="col">Logo</th> -->
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Activité</th>
+                        <th scope="col">Lien du CV</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let firstFormateur of formateursAll | paginate: {
+                                    itemsPerPage: filterForm.value.filter,
+                                    currentPage: page,
+                                    }; ">
+                        <!-- <th scope="row"><img src="{{ firstFormation.logo }}" /></th> -->
+                        <th>{{ firstFormateur.firstName }}</th>
+                        <td>{{ firstFormateur.lastName}}</td>
+                        <td>{{ firstFormateur.gender }}</td>
+                        <td>{{ firstFormateur.activity }}</td>
+                        <td>{{ firstFormateur.cvLink}}</td>
+
+                        <td class="text-center">
+                            <!-- ______________________________________________________________________________
+                            Travailler en cours : gestion de regles de metier pour autoriser la modification
+                           -->
+                            <!--<i class="fa fa-pencil text-primary" (click)="formateurEdit(firstFormateur.id)"
+                                data-bs-toggle="modal" data-bs-target="#formationUpdateModal" title="Modifier"></i>-->
+
+                            <i class="fa fa-trash text-danger mx-2" title="Supprimer"
+                                (click)="formateurDelete(firstFormateur.id)"></i>
+
+                            <!-- ______________________________________________________________________________
+                                Travailler en cours : gestion de regles de metier pour autoriser la modification
+                           -->
+                            <!-- <i
+                class="fa fa-info text-info"
+                title="Détail"
+                (click)="formationDetail(firstFormation.id)"
+              ></i> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row mt-3">
+            <!--  Nombre de formations afficher sur le nombre d'entrées -->
+            <div class="col-md-6">
+                <p class="m-0">
+                    Affichage de {{ filterForm.value.filter }} entrées sur
+                    {{ formateursAll.length }}
+                </p>
+            </div>
+
+            <div class="col-md-2"></div>
+            <div class="col-md-4 text-end">
+                <pagination-controls (pageChange)="handlePageChange($event)"
+                    (pageBoundsCorrection)="handlePageChange($event)" previousLabel="Précédent" nextLabel="Suivant"
+                    screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="Vous êtes à la page"></pagination-controls>
+            </div>
+
+            <!--  Formulaire de modification d'une formation -->
+            <div class="modal fade" id="formationUpdateModal" data-bs-backdrop="static" tabindex="-1"
+                aria-labelledby="formationUpdateModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modifier</h5>
+                        </div>
+                        <form [formGroup]="formateurUpdateForm">
+                            <div class="modal-body">
+
+                                <div class="mb-1">
+                                    <input type="text" class="form-control input-default" placeholder="Prénom *"
+                                        formControlName="firstName" required />
+                                </div>
+
+                                <div class="mb-1">
+                                    <input type="text" class="form-control input-default" placeholder="Nom *"
+                                        formControlName="lastName" required />
+                                </div>
+
+                                <div class="mb-1">
+                                    <input type="text" class="form-control input-default" placeholder="Genre *"
+                                        formControlName="gender" required />
+                                </div>
+
+                                <div class="mb-1">
+                                    <input type="text" class="form-control input-default" placeholder="Activité *"
+                                        formControlName="activity" required />
+                                </div>
+
+                                <div class="mb-1">
+                                    <textarea class="form-control input-rounded" name="" id="cvLink" cols="30" rows="2"
+                                        placeholder="Lien CV *" formControlName="cvLink" required></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-sm btn-primary" (click)="updateFormateur()">
+                                    <span *ngIf="isFormFormateurLoading" class="spinner-border"></span><span
+                                        [ngClass]="isFormFormateurLoading ? 'hidden' : ''">Enregistrer</span>
+                                </button>
+
+                                <button type="reset" class="btn btn-sm btn-secondary" class="btn btn-sm btn-light"
+                                    data-bs-dismiss="modal">
+                                    Annuler
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid waiting" *ngIf="isLoading">
+        <span class="spinner-border"></span>
+    </div>
+</div>
+
+<!--Modification des informations d'un formateur -->
+<!-- <div class="modal fade" id="formationUpdateModal" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="formationUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier Thème</h5>
+            </div>
+            <form [formGroup]="formateurUpdateForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="text" class="form-control input-default" placeholder="Intitulé *"
+                            formControlName="formationTitle" required />
+                        <input type="hidden" class="form-control input-default" formControlName="id" required />
+                        <input type="hidden" class="form-control input-default" formControlName="creationDate"
+                            required />
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control input-rounded" name="" id="" cols="60" rows="5"
+                            placeholder="Description *" formControlName="description" required></textarea>
+                    </div>
+                </div>
+
+                 <div class="modal-footer">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="updateFormation()"
+          >
+            <span *ngIf="isFormFormateurLoading" class="spinner-border"></span
+            ><span [ngClass]="isFormFormateurLoading ? 'hidden' : ''"
+              >&nbsp;Enregistrer</span
+            >
+          </button>
+          <button
+            type="reset"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            &nbsp;Annuler
+          </button>
+        </div> 
+            </form>
+        </div>
+    </div>
+</div> -->
+
+<div class="container-fluid waiting" *ngIf="isLoading">
+    <span class="spinner-border"></span>
+    <div class="card"></div>
+</div>

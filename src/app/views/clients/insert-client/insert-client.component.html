@@ -1,0 +1,192 @@
+<h1 class="h2 mb-3 mt-3 border-bottom">Participants</h1>
+<div class="card">
+  <div class="card-header bg-white">
+    <h4 class="card-title mt-5">{{ title }}</h4>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="userForm" (ngSubmit)="createParticipant()">
+      <div *ngIf="idParticipant" class="form-group mb-5">
+        <label for="description">Type:</label>
+        <input type="text" id="code" disabled [value]="formVisibility" />
+      </div>
+      <div
+        *ngIf="!idParticipant"
+        class="form-group mb-5"
+      >
+        <select
+          (change)="updateForm($event)"
+          class="form-control border-0 border-bottom"
+        >
+          <option value="" disabled [defaultSelected]="true">
+            Sélectionner un type de participant
+          </option>
+          <option value="employe">Employé</option>
+          <option value="particulier">Particulier</option>
+          <option value="company">Entreprise</option>
+        </select>
+      </div>
+      <div class="group" *ngIf="formVisibility === 'company'">
+        <div class="form-group mb-5">
+          <label for="name">Nom de l'entreprise:</label>
+          <input
+            type="text"
+            class="border-0 border-bottom form-control"
+            formControlName="name"
+            
+          />
+        </div>
+        <div class="form-group mb-5">
+          <label for="activity">Description de l'entreprise:</label>
+          <input
+            type="text"
+            class="border-0 border-bottom form-control"
+            formControlName="activity"
+            
+          />
+        </div>
+      </div>
+      <div
+        class="group"
+        *ngIf="formVisibility === 'particulier' || formVisibility === 'employe'"
+      >
+        <div class="form-group mb-5">
+          <label for="firstname">Nom:</label>
+          <input
+            type="text"
+            class="border-0 border-bottom form-control"
+            formControlName="firstname"
+            
+          />
+          <input
+            type="hidden"
+            class="border-0 border-bottom form-control"
+            formControlName="id"
+            
+          />
+        </div>
+        <div class="form-group mb-5">
+          <label for="lastname">Prénom:</label>
+          <input
+            type="text"
+            class="border-0 border-bottom form-control"
+            formControlName="lastname"
+            
+          />
+        </div>
+        <div class="form-group mb-5">
+          <label for="highestDiploma">Dernier diplôme obtenu:</label>
+          <input
+            type="text"
+            class="border-0 border-bottom form-control"
+            formControlName="highestDiploma"
+            
+          />
+        </div>
+        <div class="group1" *ngIf="formVisibility === 'particulier'">
+          <div class="form-group mb-5">
+            <label for="activity">Métier:</label>
+            <input
+              type="text"
+              class="border-0 border-bottom form-control"
+              formControlName="activity"
+              
+            />
+          </div>
+          <div class="form-group mb-5">
+            <label for="birthDate">Date de naissance:</label>
+            <input
+              type="date"
+              class="border-0 border-bottom form-control"
+              formControlName="birthDate"
+              
+            />
+          </div>
+        </div>
+        <div class="group2" *ngIf="formVisibility === 'employe'">
+          <div class="form-group mb-5">
+            <label for="company">Sélectionner votre entreprise:</label>
+            <select
+              formControlName="company"
+              class="border-0 border-bottom form-control"
+              
+            >
+              <option value="" disabled>Sélectionner votre entreprise</option>
+              <option
+                *ngFor="let company of companies"
+                [ngValue]="company"
+                [selected]="
+                  company.id === entreprise.id ? entreprise.name : null
+                "
+              >
+                {{ company.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mb-5">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          class="border-0 border-bottom form-control"
+          formControlName="email"
+          
+        />
+        <div
+          class="text-danger"
+          *ngIf="
+            userForm.get('email')!.hasError('email') &&
+            userForm.get('email')!.touched
+          "
+        >
+          Veuillez entrer une adresse email valide.
+        </div>
+      </div>
+      <div class="form-group mb-5">
+        <label for="phone">Numéro de téléphone:</label>
+        <input
+          type="text"
+          class="border-0 border-bottom form-control"
+          formControlName="phone"
+          
+        />
+      </div>
+      <div class="form-group mb-5">
+        <label for="address">Votre adresse:</label>
+        <input
+          type="text"
+          class="border-0 border-bottom form-control"
+          formControlName="address"
+          
+        />
+      </div>
+      <div
+        class="group"
+        *ngIf="formVisibility === 'particulier' || formVisibility === 'employe'"
+      >
+        <div>
+          Sexe:
+          <label>
+            <input type="radio" formControlName="gender" value="M" required /> M
+          </label>
+          <label>
+            <input type="radio" formControlName="gender" value="F" required /> F
+          </label>
+        </div>
+      </div>
+      <div class="col-md-12 d-flex justify-content-end">
+        <button
+        type="submit"
+        class="btn btn-primary me-5"
+      >
+        <span *ngIf="isLoading" class="spinner-border"></span>
+        <span [ngClass]="isLoading ? 'hidden' : ''"
+          ><span [ngClass]="isFormEdit ? 'hidden' : ''">Ajouter</span
+          ><span [ngClass]="!isFormEdit ? 'hidden' : ''">Modifier</span></span
+        >
+      </button>
+      <button class="btn btn-secondary" (click)="cancel()">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>

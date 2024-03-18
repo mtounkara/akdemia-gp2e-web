@@ -1,0 +1,33 @@
+.bg-dark-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-color);
+}
+
+.bg-dark-akdemia::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.active-link {
+    border: none;
+    border-left: 5px solid #000000;
+}
+
+.btn-toggle-nav li a{
+  border-radius: 5px;
+
+}
+
+.cat{
+  cursor: pointer;
+}

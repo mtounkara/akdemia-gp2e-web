@@ -1,0 +1,52 @@
+<h1 class="h2 mb-3 mt-3 border-bottom p-2">Infos de la formation</h1>
+<h4><span class="lead">Titre:</span> {{ formationDetail.title }}</h4>
+<h5>
+  <span class="lead">Description:</span> {{ formationDetail.description }}
+</h5>
+<h5><span class="lead">Prix:</span> {{ formationDetail.trainingPrice }} €</h5>
+<div class="card">
+  <!-- Liste des formations -->
+  <!-- <div class="table table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Intitulé</th>
+          <th scope="col">Description</th>
+          <th scope="col">Date création</th>
+          <th scope="col" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let firstTheme of themesAll | paginate: {
+                                  itemsPerPage: filterForm.value.filter,
+                                  currentPage: page,
+                                  }; "
+        >
+          <th scope="row">{{ firstTheme.themeTitle }}</th>
+          <td>{{ getSubString(firstTheme.description) }}</td>
+          <td>{{ firstTheme.creationDate | date : "dd-MM-yyyy" }}</td>
+          <td class="text-center">
+            <i
+              class="fa fa-pencil text-primary"
+              (click)="themeEdit(firstTheme.id)"
+              data-bs-toggle="modal"
+              data-bs-target="#themeUpdateModal"
+              title="Modifier"
+            ></i>
+            <i
+              class="fa fa-trash text-danger mx-2"
+              title="Supprimer"
+              (click)="themeDelete(firstTheme.id)"
+            ></i>
+            <i
+              class="fa fa-info text-info"
+              title="Détail"
+              (click)="themeDetail(firstTheme.id)"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+</div>

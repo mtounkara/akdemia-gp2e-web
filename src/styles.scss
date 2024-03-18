@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@fortawesome/fontawesome-free/css/all.css";
+@import "~node_modules/ngx-toastr/toastr.css";
+@import "node_modules/@costlydeveloper/ngx-awesome-popup/styles/theme";
+
+:root {
+  --primary-color: #3f92b7;
+  --secondary-color: #2ecc71;
+  --font-family: "Arial", sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+.toast-container .ngx-toastr {
+  width: 400px;
+}
+.waiting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  border: none;
+}
+.logo-style {
+  font-family: Showcard Gothic Normal, Showcard Gothic;
+  font-weight: 400;
+  font-size: 40px;
+}
+.search {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.search ::after{
+  padding-left: 30px;
+}
+.link-offset-2,i{
+  cursor: pointer;
+}
+.td, .th {
+  text-align: center;
+  vertical-align: middle;
+}
