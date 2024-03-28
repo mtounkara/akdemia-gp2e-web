@@ -13,6 +13,8 @@ import { CompanyService } from 'src/app/services/company.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Trainer } from 'src/app/models/Trainer';
 import { TrainerService } from 'src/app/services/trainer.service';
+import { Session } from 'src/app/models/Session';
+import { SessionService } from 'src/app/services/sessions.service';
 
 @Component({
   selector: 'app-content-dashboard',
@@ -27,7 +29,8 @@ export class ContentDashboardComponent implements OnInit {
     private particularService: ParticularService,
     private companyService: CompanyService,
     private employeeService: EmployeeService,
-    private formateurService: TrainerService
+    private formateurService: TrainerService,
+    private sessionService: SessionService
   ) {}
 
   listeTheme: Theme[] = [];
@@ -41,7 +44,9 @@ export class ContentDashboardComponent implements OnInit {
   listeEmployees: Employee[] = [];
 
   listeFormateurs: Trainer[] = [];
-
+  
+  listeSessions: Session[] = [];
+  
   ngOnInit(): void {
     this.loadThemes();
     this.loadSubThemes();
@@ -51,14 +56,15 @@ export class ContentDashboardComponent implements OnInit {
     this.loadEmployees();
 
     this.loadFormateurs();
+    this.loadSessions();
   }
-
+  
   loadThemes() {
     this.themeService.getAll().subscribe({
       next: (data) => (this.listeTheme = data),
     });
   }
-
+  
   loadSubThemes() {
     this.subThemeService.getAll().subscribe({
       next: (data) => (this.listeSubTheme = data),
@@ -83,7 +89,7 @@ export class ContentDashboardComponent implements OnInit {
       next: (data) => (this.listeCompagnies = data),
     });
   }
-
+  
   loadEmployees() {
     this.employeeService.getAll().subscribe({
       next: (data) => (this.listeEmployees = data),
@@ -96,4 +102,11 @@ export class ContentDashboardComponent implements OnInit {
       next: (data) => (this.listeFormateurs = data),
     });
   }
+
+  //--- calcul nombre total de session
+  loadSessions(){
+    this.sessionService.getAll().subscribe({
+      next: (data) => (this.listeSessions = data),
+    })
+  };
 }
